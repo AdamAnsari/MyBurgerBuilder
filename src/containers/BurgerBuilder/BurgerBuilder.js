@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import Auxiliary from '../../hoc/Auxiliary';
 import Burger from '../../components/Burger/Burger';
+import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+
+const INGREDIENT_PRICES = {
+	salad: 0.5,
+	cheese: 0.4,
+	meat: 1.3,
+	bacon: 0.7
+}
 
 class BurgerBuilder extends Component {
 	//Older ways to create state
@@ -16,14 +24,40 @@ class BurgerBuilder extends Component {
 			bacon: 0,
 			cheese: 0,
 			meat: 0 
-		}
+		},
+		totalPrice: 4
+	}
+
+	addIngredientHandler = (type) => {
+		const oldCount = this.state.ingredients[type];
+		// console.log(`OldCount: ${oldCount}`);
+		const updatedCount = oldCount + 1;
+		const updatedIngredients = {
+			...this.state.ingredients
+		};
+		// console.log(updatedIngredients);
+		updatedIngredients[type] = updatedCount;
+
+		const priceAddition = INGREDIENT_PRICES[type];
+		// console.log(priceAddition);
+		const oldPrice = this.state.totalPrice;
+		const newPrice = oldPrice + priceAddition;
+
+		this.setState({
+			totalPrice: newPrice, 
+			ingredients: updatedIngredients
+		})
+	}
+
+	removeIngredientHandler = (type) => {
+
 	}
 
 	render() {
 		return(
 			<Auxiliary>
 				<Burger ingredients={this.state.ingredients} />
-				<div>Build Controls</div>
+				<BuildControls ingredientAdded={this.addIngredientHandler} />
 			</Auxiliary>
 		);
 	}
