@@ -4,6 +4,9 @@ import Auxiliary from '../../../hoc/Auxiliary/Auxiliary';
 import Backdrop from '../Backdrop/Backdrop';
 
 class modal extends Component {
+	shouldComponentUpdate(nextProps, nextState) {
+		return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
+	}
 	render() {
 		return(
 			<Auxiliary>
